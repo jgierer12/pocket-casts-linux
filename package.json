@@ -1,0 +1,51 @@
+{
+  "private": true,
+  "name": "pocket-casts-linux",
+  "version": "1.0.0",
+  "license": "MIT",
+  "description": "Electron wrapper around the Pocket Casts web app with support for MPRIS (media controls)",
+  "homepage": "https://github.com/jgierer12/pocket-casts-linux",
+  "author": {
+    "name": "Jonas Gierer",
+    "email": "jgierer12@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jgierer12/pocket-casts-linux.git"
+  },
+  "main": "src/index.js",
+  "scripts": {
+    "start": "electron .",
+    "prebuild": "sudo rm -rf dist",
+    "build": "sudo electron-builder",
+    "postbuild": "electron-builder install-app-deps",
+    "postinstall": "run-s postbuild",
+    "test": "run-s lint",
+    "format": "run-p -l format:*",
+    "format:js": "run-s \"_eslint -- --fix\"",
+    "format:other": "run-s \"_prettier -- --write\"",
+    "lint": "run-p -l -c lint:*",
+    "lint:js": "run-s _eslint",
+    "lint:other": "run-s \"_prettier -- --list-different\"",
+    "_eslint": "eslint --color --ignore-path .gitignore \"**/*.js\"",
+    "_prettier": "prettier --ignore-path .gitignore \"**/*.{json,md,mdx,yml,graphql}\""
+  },
+  "dependencies": {
+    "@trodi/electron-splashscreen": "^0.3.4",
+    "dom-loaded": "^1.0.1",
+    "electron-is-dev": "^1.0.1",
+    "mpris-service": "^1.1.4",
+    "select-dom": "^4.1.3"
+  },
+  "devDependencies": {
+    "electron": "^3.0.13",
+    "electron-builder": "^20.38.4",
+    "electron-reloader": "^0.2.0",
+    "eslint": "^5.10.0",
+    "eslint-config-google": "^0.11.0",
+    "eslint-config-prettier": "^3.3.0",
+    "eslint-plugin-prettier": "^3.0.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^1.15.3"
+  }
+}

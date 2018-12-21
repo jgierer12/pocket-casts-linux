@@ -1,0 +1,23 @@
+appId: pocket-casts-linux
+productName: Pocket Casts
+artifactName: "${name}-${version}-${arch}.${ext}"
+linux:
+  icon: resources/icon
+  category: AudioVideo;Audio;
+  target:
+    - target: AppImage
+      arch:
+        - x64
+        - ia32
+    # - target: snap
+    #   arch:
+    #     - x64
+    #     - ia32
+    - target: pacman
+      arch:
+        - x64
+        - ia32
+    - target: zip
+      arch:
+        - x64
+        - ia32
