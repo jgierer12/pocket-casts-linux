@@ -28,7 +28,8 @@ sudo pacman -S pocket-casts-linux-bin
 
 ### AppImage
 
-1. Download the AppImage binary from the [releases page](releases).
+1. Download the AppImage binary from the
+   [releases page](https://github.com/jgierer12/pocket-casts-linux/releases/).
 2. Execute the binary and answer "Yes" when prompted about system integration.
 
 ### Snap
