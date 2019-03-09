@@ -28,7 +28,6 @@ ipcMain.on(
 
     if (player) {
       player.metadata = {
-        "mpris:trackid": player.objectPath(`${podcastTitle}/${episodeTitle}`),
         "xesam:title": episodeTitle,
         "xesam:artist": [podcastTitle],
         "mpris:artUrl": getJpgUrl(podcastImg),
@@ -45,7 +44,7 @@ ipcMain.on(`playerUnready`, () => {
 
 module.exports.init = window => {
   player = new Player({
-    name: `pocket-casts-linux`,
+    name: `pocket_casts_linux`,
     identity: `Pocket Casts`,
     supportedInterfaces: [`player`],
   });
@@ -58,6 +57,10 @@ module.exports.init = window => {
 
   player.on(`raise`, () => {
     window.focus();
+  });
+
+  player.on(`quit`, () => {
+    process.exit();
   });
 
   player.on(`playpause`, () =>
