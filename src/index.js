@@ -1,7 +1,6 @@
 const path = require(`path`);
-const { ipcMain, shell, app } = require(`electron`);
+const { ipcMain, shell, app, BrowserWindow } = require(`electron`);
 const isDev = require(`electron-is-dev`);
-const { initSplashScreen } = require(`@trodi/electron-splashscreen`);
 
 const POCKET_CASTS_URL = `https://playbeta.pocketcasts.com/web/`;
 
@@ -13,13 +12,21 @@ try {
 
 let window = null;
 
+const showWindow = () => {
+  window && window.show && window.show();
+};
+
+const exitWindow = () => {
+  window = null;
+};
+
 const createWindow = () => {
   const size = { width: 1200, height: 800 };
-  window = initSplashScreen({
-    templateUrl: path.join(__dirname, `splash-screen`, `index.html`),
-    splashScreenOpts: size,
-    windowOpts: Object.assign(
+  window = new BrowserWindow(
+    Object.assign(
       {
+        show: false,
+        title: `Pocket Casts`,
         webPreferences: {
           nodeIntegration: false,
           contextIsolation: true,
@@ -27,21 +34,23 @@ const createWindow = () => {
         },
       },
       size
-    ),
-  });
+    )
+  );
   window.setMenuBarVisibility(false);
 
   isDev && window.webContents.openDevTools();
   window.loadURL(POCKET_CASTS_URL);
+
+  window.on(`ready-to-show`, showWindow);
+  setTimeout(showWindow, 500);
 
   window.webContents.on(`new-window`, (ev, url) => {
     ev.preventDefault();
     shell.openExternal(url);
   });
 
-  window.on(`closed`, () => {
-    window = null;
-  });
+  window.on(`closed`, exitWindow);
+  process.on(`beforeExit`, exitWindow);
 };
 
 app.on(`ready`, createWindow);
