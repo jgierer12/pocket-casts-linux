@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "pocket-casts-linux",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "license": "MIT",
   "description": "Electron wrapper around the Pocket Casts web app with support for MPRIS (media controls)",
   "homepage": "https://github.com/jgierer12/pocket-casts-linux",
