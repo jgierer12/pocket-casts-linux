@@ -13,10 +13,6 @@ const showWindow = () => {
   window && window.show && window.show();
 };
 
-const exitWindow = () => {
-  window = null;
-};
-
 const createWindow = () => {
   const windowState = getWindowState({
     defaultWidth: 1200,
@@ -52,11 +48,13 @@ const createWindow = () => {
     shell.openExternal(url);
   });
 
-  window.on(`closed`, exitWindow);
-  process.on(`beforeExit`, exitWindow);
+  window.on(`closed`, () => {
+    window = null;
+  });
 };
 
 app.on(`ready`, createWindow);
+app.on(`window-all-closed`, app.quit);
 
 ipcMain.once(IPC_EVENTS.PLAYER_READY, () => require(`./mpris`).init(window));
 
