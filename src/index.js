@@ -3,13 +3,9 @@ const { ipcMain, shell, app, BrowserWindow } = require(`electron`);
 const isDev = require(`electron-is-dev`);
 const getWindowState = require(`electron-window-state`);
 
-const POCKET_CASTS_URL = `https://playbeta.pocketcasts.com/web/`;
+const { POCKET_CASTS_URL, IPC_EVENTS, APP_NAME } = require(`./constants`);
 
-try {
-  isDev && require(`electron-reloader`)(module);
-} catch (err) {
-  console.error(err);
-}
+require(`./reloader`);
 
 let window = null;
 
@@ -31,7 +27,7 @@ const createWindow = () => {
     Object.assign(
       {
         show: false,
-        title: `Pocket Casts`,
+        title: APP_NAME,
         webPreferences: {
           nodeIntegration: false,
           contextIsolation: true,
@@ -62,4 +58,4 @@ const createWindow = () => {
 
 app.on(`ready`, createWindow);
 
-ipcMain.once(`playerReady`, () => require(`./mpris`).init(window));
+ipcMain.once(IPC_EVENTS.PLAYER_READY, () => require(`./mpris`).init(window));

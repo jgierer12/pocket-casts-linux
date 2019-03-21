@@ -1,16 +1,18 @@
 const { ipcMain } = require(`electron`);
 const Player = require(`mpris-service`);
 
+const { IPC_EVENTS, MPRIS, MPRIS_EVENTS, APP_NAME } = require(`./constants`);
+
 let player, sender;
 
 const send = (channel, args) => {
   if (sender) sender.send(channel, args);
 };
 
-const statusToBool = status => status === `Playing`;
-const boolToStatus = bool => (bool ? `Playing` : `Paused`);
+const statusToBool = status => status === MPRIS.PLAYING;
+const boolToStatus = bool => (bool ? MPRIS.PLAYING : MPRIS.PAUSED);
 
-ipcMain.on(`isPlayingChange`, (ev, newPlaying) => {
+ipcMain.on(IPC_EVENTS.IS_PLAYING_CHANGE, (ev, newPlaying) => {
   sender = ev.sender;
 
   if (player) {
@@ -22,30 +24,30 @@ const getJpgUrl = webpUrl =>
   webpUrl.replace(`webp/`, ``).replace(`.webp`, `.jpg`);
 
 ipcMain.on(
-  `metadataChange`,
+  IPC_EVENTS.METADATA_CHANGE,
   (ev, { episodeTitle, podcastTitle, podcastImg }) => {
     sender = ev.sender;
 
     if (player) {
       player.metadata = {
-        "xesam:title": episodeTitle,
-        "xesam:artist": [podcastTitle],
-        "mpris:artUrl": getJpgUrl(podcastImg),
+        [MPRIS.METADATA.ARTIST]: episodeTitle,
+        [MPRIS.METADATA.ARTIST]: [podcastTitle],
+        [MPRIS.METADATA.ART_URL]: getJpgUrl(podcastImg),
       };
     }
   }
 );
 
-ipcMain.on(`playerUnready`, () => {
+ipcMain.on(IPC_EVENTS.PLAYER_UNREADY, () => {
   if (player) {
-    player.playbackStatus = `Stopped`;
+    player.playbackStatus = MPRIS.STOPPED;
   }
 });
 
 module.exports.init = window => {
   player = new Player({
     name: `pocket_casts_linux`,
-    identity: `Pocket Casts`,
+    identity: APP_NAME,
     supportedInterfaces: [`player`],
   });
   player.canSeek = false;
@@ -55,17 +57,17 @@ module.exports.init = window => {
   player.canGoNext = true;
   player.canGoPrevious = true;
 
-  player.on(`raise`, () => {
+  player.on(MPRIS_EVENTS.FOCUS, () => {
     window.focus();
   });
 
-  player.on(`quit`, () => {
+  player.on(MPRIS_EVENTS.QUIT, () => {
     process.exit();
   });
 
-  player.on(`playpause`, () =>
-    send(`setPlaying`, !statusToBool(player.playbackStatus))
+  player.on(MPRIS_EVENTS.IS_PLAYING_CHANGE, () =>
+    send(IPC_EVENTS.SET_PLAYING, !statusToBool(player.playbackStatus))
   );
-  player.on(`previous`, () => send(`skipBack`));
-  player.on(`next`, () => send(`skipForward`));
+  player.on(MPRIS_EVENTS.SKIP_BACK, () => send(IPC_EVENTS.SKIP_BACK));
+  player.on(MPRIS_EVENTS.SKIP_FORWARD, () => send(IPC_EVENTS.SKIP_FORWARD));
 };

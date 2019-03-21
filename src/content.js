@@ -1,13 +1,10 @@
 const { ipcRenderer } = require(`electron`);
-const isDev = require(`electron-is-dev`);
 const domLoaded = require(`dom-loaded`);
 const select = require(`select-dom`);
 
-try {
-  isDev && require(`electron-reloader`)(module);
-} catch (err) {
-  console.error(err);
-}
+const { IPC_EVENTS } = require(`./constants`);
+
+require(`./reloader`);
 
 domLoaded.then(() => {
   const getControlsNode = () => select(`.player-controls > .controls`);
@@ -16,11 +13,11 @@ domLoaded.then(() => {
   const observer = new MutationObserver(() => {
     const controlsNode = getControlsNode();
     if (!hasControlsNode && controlsNode) {
-      ipcRenderer.send(`playerReady`);
+      ipcRenderer.send(IPC_EVENTS.PLAYER_READY);
       handlePlayerReady(controlsNode);
     }
     if (hasControlsNode && !controlsNode) {
-      ipcRenderer.send(`playerUnready`);
+      ipcRenderer.send(IPC_EVENTS.PLAYER_UNREADY);
     }
     hasControlsNode = !!controlsNode;
   });
@@ -46,18 +43,18 @@ const handlePlayerReady = controlsNode => {
   const skipBackBtn = select(`.skip_back_button`, controlsNode);
   const skipForwardBtn = select(`.skip_forward_button`, controlsNode);
 
-  ipcRenderer.send(`metadataChange`, getMetadata());
-  ipcRenderer.send(`isPlayingChange`, isPlaying());
+  ipcRenderer.send(IPC_EVENTS.METADATA_CHANGE, getMetadata());
+  ipcRenderer.send(IPC_EVENTS.IS_PLAYING_CHANGE, isPlaying());
 
   ipcRenderer.on(
-    `setPlaying`,
+    IPC_EVENTS.SET_PLAYING,
     (ev, newPlaying) => isPlaying() !== newPlaying && playBtn.click()
   );
-  ipcRenderer.on(`skipBack`, () => skipBackBtn.click());
-  ipcRenderer.on(`skipForward`, () => skipForwardBtn.click());
+  ipcRenderer.on(IPC_EVENTS.SKIP_BACK, () => skipBackBtn.click());
+  ipcRenderer.on(IPC_EVENTS.SKIP_FORWARD, () => skipForwardBtn.click());
 
   const playBtnObserver = new MutationObserver(() => {
-    ipcRenderer.send(`isPlayingChange`, isPlaying());
+    ipcRenderer.send(IPC_EVENTS.IS_PLAYING_CHANGE, isPlaying());
   });
   playBtnObserver.observe(playBtn, {
     attributes: true,
@@ -65,7 +62,7 @@ const handlePlayerReady = controlsNode => {
   });
 
   const episodeTitleObserver = new MutationObserver(() => {
-    ipcRenderer.send(`metadataChange`, getMetadata());
+    ipcRenderer.send(IPC_EVENTS.METADATA_CHANGE, getMetadata());
   });
   episodeTitleObserver.observe(episodeTitle, {
     characterData: true,
