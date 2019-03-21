@@ -25,6 +25,18 @@ domLoaded.then(() => {
     childList: true,
     subtree: true,
   });
+
+  document.addEventListener(`keydown`, ev => {
+    const isCtrlKey = key => !ev.altKey && ev.ctrlKey && ev.key === key;
+
+    if (isCtrlKey(`+`) || isCtrlKey(`=`)) {
+      ipcRenderer.send(IPC_EVENTS.ZOOM_IN);
+    } else if (isCtrlKey(`-`)) {
+      ipcRenderer.send(IPC_EVENTS.ZOOM_OUT);
+    } else if (isCtrlKey(`0`)) {
+      ipcRenderer.send(IPC_EVENTS.ZOOM_RESET);
+    }
+  });
 });
 
 const handlePlayerReady = controlsNode => {

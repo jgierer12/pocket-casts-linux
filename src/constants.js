@@ -7,6 +7,9 @@ module.exports = {
     SET_PLAYING: `SET_PLAYING`,
     SKIP_BACK: `SKIP_BACK`,
     SKIP_FORWARD: `SKIP_FORWARD`,
+    ZOOM_IN: `ZOOM_IN`,
+    ZOOM_OUT: `ZOOM_OUT`,
+    ZOOM_RESET: `ZOOM_RESET`,
   },
   MPRIS_EVENTS: {
     FOCUS: `raise`,

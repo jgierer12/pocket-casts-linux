@@ -59,3 +59,25 @@ const createWindow = () => {
 app.on(`ready`, createWindow);
 
 ipcMain.once(IPC_EVENTS.PLAYER_READY, () => require(`./mpris`).init(window));
+
+const zoom = action => () => {
+  const view = window && window.webContents;
+  if (!view) {
+    return;
+  }
+
+  switch (action) {
+    case `in`:
+      view.getZoomLevel(current => view.setZoomLevel(current + 1));
+      break;
+    case `out`:
+      view.getZoomLevel(current => view.setZoomLevel(current - 1));
+      break;
+    case `reset`:
+      view.setZoomLevel(0);
+      break;
+  }
+};
+ipcMain.on(IPC_EVENTS.ZOOM_IN, zoom(`in`));
+ipcMain.on(IPC_EVENTS.ZOOM_OUT, zoom(`out`));
+ipcMain.on(IPC_EVENTS.ZOOM_RESET, zoom(`reset`));
