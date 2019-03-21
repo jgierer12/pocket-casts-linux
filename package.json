@@ -18,6 +18,7 @@
     "start": "electron .",
     "prebuild": "sudo rm -rf dist",
     "build": "sudo electron-builder",
+    "build:commit": "npm run build -- --config.extraMetadata.version=$(git rev-parse --short HEAD)",
     "postbuild": "electron-builder install-app-deps",
     "postinstall": "run-s postbuild",
     "test": "run-s lint",
@@ -33,6 +34,7 @@
   "dependencies": {
     "dom-loaded": "^1.0.1",
     "electron-is-dev": "^1.0.1",
+    "electron-window-state": "^5.0.3",
     "mpris-service": "^2.0.0",
     "select-dom": "^4.1.3"
   },

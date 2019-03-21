@@ -1,6 +1,7 @@
 const path = require(`path`);
 const { ipcMain, shell, app, BrowserWindow } = require(`electron`);
 const isDev = require(`electron-is-dev`);
+const getWindowState = require(`electron-window-state`);
 
 const POCKET_CASTS_URL = `https://playbeta.pocketcasts.com/web/`;
 
@@ -21,7 +22,11 @@ const exitWindow = () => {
 };
 
 const createWindow = () => {
-  const size = { width: 1200, height: 800 };
+  const windowState = getWindowState({
+    defaultWidth: 1200,
+    defaultHeight: 800,
+  });
+
   window = new BrowserWindow(
     Object.assign(
       {
@@ -33,10 +38,12 @@ const createWindow = () => {
           preload: path.join(__dirname, `content.js`),
         },
       },
-      size
+      windowState
     )
   );
   window.setMenuBarVisibility(false);
+
+  windowState.manage(window);
 
   isDev && window.webContents.openDevTools();
   window.loadURL(POCKET_CASTS_URL);
