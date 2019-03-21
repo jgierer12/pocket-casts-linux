@@ -81,3 +81,11 @@ const zoom = action => () => {
 ipcMain.on(IPC_EVENTS.ZOOM_IN, zoom(`in`));
 ipcMain.on(IPC_EVENTS.ZOOM_OUT, zoom(`out`));
 ipcMain.on(IPC_EVENTS.ZOOM_RESET, zoom(`reset`));
+
+ipcMain.on(IPC_EVENTS.METADATA_CHANGE, (ev, { episodeTitle, podcastTitle }) => {
+  const title = [episodeTitle, podcastTitle, APP_NAME]
+    .filter(str => !!str)
+    .join(` - `);
+
+  window && window.setTitle(title);
+});
