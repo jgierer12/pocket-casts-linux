@@ -38,7 +38,8 @@ const createWindow = () => {
   windowState.manage(window);
 
   isDev && window.webContents.openDevTools();
-  window.loadURL(POCKET_CASTS_URL);
+  window.loadFile(path.join(__dirname, `test.html`));
+  // window.loadURL(POCKET_CASTS_URL);
 
   window.on(`ready-to-show`, showWindow);
   setTimeout(showWindow, 500);
