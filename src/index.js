@@ -38,7 +38,7 @@ const createWindow = () => {
   windowState.manage(window);
 
   isDev && window.webContents.openDevTools();
-  window.loadFile(path.join(__dirname, `test.html`));
+  window.loadURL(`https://google.com`);
   // window.loadURL(POCKET_CASTS_URL);
 
   window.on(`ready-to-show`, showWindow);
