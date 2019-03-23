@@ -30,7 +30,7 @@ ipcMain.on(
 
     if (player) {
       player.metadata = {
-        [MPRIS.METADATA.ARTIST]: episodeTitle,
+        [MPRIS.METADATA.TITLE]: episodeTitle,
         [MPRIS.METADATA.ARTIST]: [podcastTitle],
         [MPRIS.METADATA.ART_URL]: getJpgUrl(podcastImg),
       };
