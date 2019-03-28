@@ -32,10 +32,6 @@ sudo pacman -S pocket-casts-linux-bin
    [releases page](https://github.com/jgierer12/pocket-casts-linux/releases/).
 2. Execute the binary and answer "Yes" when prompted about system integration.
 
-### Snap
-
-> Coming soon!
-
 ## License
 
 [MIT](LICENSE)
