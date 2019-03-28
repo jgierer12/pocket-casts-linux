@@ -4,8 +4,8 @@ Electron wrapper around the
 [Pocket Casts web app](https://playbeta.pocketcasts.com/web/) with support for
 MPRIS (media controls).
 
-![App Screenshot](https://user-images.githubusercontent.com/4331946/50300325-5cc32d80-0484-11e9-8920-92399c93bb7c.png)
-![Media Controls screenshot](https://user-images.githubusercontent.com/4331946/50300326-5d5bc400-0484-11e9-998f-87b771ef94be.png)
+![App Screenshot](https://user-images.githubusercontent.com/4331946/55138047-ce211500-5132-11e9-98cd-810fab6f4180.png)
+![Media Controls screenshot](https://user-images.githubusercontent.com/4331946/55138012-bc3f7200-5132-11e9-949e-6b120b2960b3.png)
 
 Pocket Casts is the world's most powerful podcast player. It's a great app to
 discover and listen to your favorite podcasts. Many blogs have deemed Pocket
