@@ -1,22 +1,19 @@
 # Pocket Casts for Linux
 
-Electron wrapper around the
-[Pocket Casts web app](https://playbeta.pocketcasts.com/web/) with support for
-MPRIS (media controls).
+[Pocket Casts](https://www.pocketcasts.com) client with support for MPRIS (media
+controls).
 
 ![App Screenshot](https://user-images.githubusercontent.com/4331946/55138047-ce211500-5132-11e9-98cd-810fab6f4180.png)
 ![Media Controls screenshot](https://user-images.githubusercontent.com/4331946/55138012-bc3f7200-5132-11e9-949e-6b120b2960b3.png)
 
-Pocket Casts is the world's most powerful podcast player. It's a great app to
-discover and listen to your favorite podcasts. Many blogs have deemed Pocket
-Casts the best podcatcher around.
+Pocket Casts is a powerful, cross-platform podcast player. It allows you to
+discover and listen to your favorite podcasts.
 
-You need to have a pre-existing Pocket Casts account (it's cheap and worth the
-money) to use this app. You can purchase Pocket Casts on their
-[official website](https://play.pocketcasts.com/).
+This project brings the Pocket Casts web application to Linux desktops, with
+MPRIS integration to support media keys and "now playing" notifications.
 
-> Inspired by
-> [felicianotech/pocket-casts-desktop-app](https://github.com/felicianotech/pocket-casts-desktop-app)
+A Pocket Casts account is required to use this app. It is available for a
+one-time, reasonably priced purchase on https://play.pocketcasts.com.
 
 ## Installation
 
