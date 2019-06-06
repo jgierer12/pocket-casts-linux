@@ -34,4 +34,4 @@ sudo pacman -S pocket-casts-linux-bin
 
 ## License
 
-[MIT](LICENSE)
+[MIT](LICENSE) &copy; Jonas Gierer
